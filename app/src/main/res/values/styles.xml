@@ -17,4 +17,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="RadioButtonStyle" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">@dimen/default_text_size</item>
+        <item name="android:layout_marginBottom">24dp</item>
+    </style>
+
 </resources>

@@ -12,4 +12,11 @@
     <string name="button_loading">We are loading </string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="button_text">Download</string>
+    <string name="loading_text">We are loading</string>
+    
+    <string name="glide_option">Glide - Image Loading Library by BumpTech</string>
+    <string name="loadApp_option">LoadApp - Current repository by Udacity</string>
+    <string name="retrofit_option">Retrofit - Type safe HTTP client for Android and Java by Square, Inc.</string>
+    <string name="text_file">File name:</string>
+    <string name="text_status">Status:</string>
 </resources>
