@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var notificationManager: NotificationManager
     private lateinit var pendingIntent: PendingIntent
-    private lateinit var action: NotificationCompat.Action
+//    private lateinit var action: NotificationCompat.Action
     private lateinit var downloadOption: String
     private lateinit var status: String
 
@@ -47,7 +47,8 @@ class MainActivity : AppCompatActivity() {
 
             if (radioGroup.checkedRadioButtonId < 0) {
                 Toast.makeText(baseContext, "Please select the file to download", Toast.LENGTH_LONG).show()
-            }else{
+            } else {
+
                 download()
                 val optionChecked = findViewById<RadioButton>(radioGroup.checkedRadioButtonId)
                 downloadOption = optionChecked.text.toString()
@@ -82,6 +83,7 @@ class MainActivity : AppCompatActivity() {
             ) as NotificationManager
 
             notificationManager.cancelAll()
+            custom_button.buttonState = ButtonState.Completed
 
             notificationManager.sendNotification(R.string.notification_title.toString(), applicationContext, pendingIntent)
         }
@@ -128,7 +130,7 @@ class MainActivity : AppCompatActivity() {
     companion object Channel {
         private const val URL =
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter"
-        const val CHANNEL_ID = "channelId"
+        const val CHANNEL_ID = "0"
     }
 
 }

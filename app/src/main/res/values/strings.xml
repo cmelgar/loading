@@ -19,4 +19,5 @@
     <string name="retrofit_option">Retrofit - Type safe HTTP client for Android and Java by Square, Inc.</string>
     <string name="text_file">File name:</string>
     <string name="text_status">Status:</string>
+    <string name="ok_button">OK</string>
 </resources>

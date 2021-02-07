@@ -2,11 +2,13 @@ package com.udacity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.w3c.dom.Text
+import java.lang.NullPointerException
 
 class DetailActivity : AppCompatActivity() {
 
@@ -17,10 +19,28 @@ class DetailActivity : AppCompatActivity() {
 
         val filename = findViewById<TextView>(R.id.text_filename)
         val status = findViewById<TextView>(R.id.text_status)
+        val okButton = findViewById<Button>(R.id.ok_button)
 
         val extras = intent.extras
 
-        filename.text = extras?.getString("filename")
+
+
+        extras?.let {
+            filename.text = it.getString("filename")
+
+            Toast.makeText(applicationContext, it.getString("status"), Toast.LENGTH_LONG).show()
+
+            when (it.getString("status")) {
+                "Success" -> status.setTextColor(resources.getColor(R.color.colorPrimaryDark, null))
+                else  -> status.setTextColor(resources.getColor(R.color.colorFailed, null))
+            }
+        }
+
         status.text = extras?.getString("status")
+
+        okButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

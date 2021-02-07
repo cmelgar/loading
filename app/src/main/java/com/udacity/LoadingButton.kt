@@ -14,6 +14,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.withStyledAttributes
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
@@ -22,6 +24,9 @@ class LoadingButton @JvmOverloads constructor(
     private var widthSize = 0
     private var heightSize = 0
     private var angle = 0F
+    private var progress = 0F
+    private var buttonAnimator = ValueAnimator()
+    private var circleAnimator = ValueAnimator()
 
     private val paint = Paint().apply {
         isAntiAlias = true
@@ -35,22 +40,23 @@ class LoadingButton @JvmOverloads constructor(
         isClickable =  true
     }
 
-    private val valueAnimator = ValueAnimator()
-
     var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
         when (new) {
             ButtonState.Loading -> {
                 rotateCircle()
                 animatedButton()
             }
+            ButtonState.Completed -> {
+                stopAnimations()
+            }
         }
     }
 
     private fun animatedButton() {
-        val buttonAnimator = ValueAnimator.ofFloat(0F, widthSize.toFloat()).apply {
+        buttonAnimator = ValueAnimator.ofFloat(0F, widthSize.toFloat()).apply {
             duration = 1000
             addUpdateListener { valueAnimator ->
-                val progress = valueAnimator.animatedValue as Float
+                progress = valueAnimator.animatedValue as Float
                 valueAnimator.repeatCount = ValueAnimator.INFINITE
                 valueAnimator.repeatMode = ValueAnimator.REVERSE
                 valueAnimator.interpolator = LinearInterpolator()
@@ -61,12 +67,30 @@ class LoadingButton @JvmOverloads constructor(
         buttonAnimator.start()
     }
 
+
+    private fun stopAnimations() {
+        buttonAnimator.end()
+        progress = 0F
+        circleAnimator.end()
+        angle = 0F
+        invalidate()
+    }
+
+    private fun drawButtonFill(canvas: Canvas?) {
+        paint.color = ResourcesCompat.getColor(resources, R.color.colorPrimaryDark, null)
+        canvas?.drawRect(
+                0f,
+                0f,
+                progress,
+                heightSize.toFloat(), paint)
+    }
+
     private fun rotateCircle() {
-        ValueAnimator.ofFloat(0F, 360F).apply {
-            duration = 1000
+        circleAnimator = ValueAnimator.ofFloat(0F, 360F).apply {
+            duration = 2000
             addUpdateListener { valueAnimator ->
                 angle = valueAnimator.animatedValue as Float
-                valueAnimator.repeatCount = 0
+                valueAnimator.repeatCount = ValueAnimator.INFINITE
                 valueAnimator.repeatMode = ValueAnimator.REVERSE
                 loadingButton.invalidate()
             }
@@ -106,13 +130,16 @@ class LoadingButton @JvmOverloads constructor(
         canvas?.let {
 
             if (buttonState == ButtonState.Loading) {
-                it.drawText(resources.getString(R.string.loading_text),
+                drawButtonFill(canvas)
+                canvas.drawText(resources.getString(R.string.loading_text),
                         (widthSize / 2).toFloat(),
                         (heightSize / 2 + textOffset),
                         paintText)
                 drawCircle(canvas)
-            } else {
-                it.drawText(
+
+            }
+            if (buttonState == ButtonState.Completed) {
+                canvas.drawText(
                         resources.getString(R.string.button_text),
                         (widthSize / 2).toFloat(),
                         (heightSize / 2 + textOffset),
