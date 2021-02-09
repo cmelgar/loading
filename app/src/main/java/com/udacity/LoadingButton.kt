@@ -13,7 +13,6 @@ import android.text.style.BackgroundColorSpan
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.withStyledAttributes
 import kotlin.properties.Delegates

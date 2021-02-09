@@ -28,8 +28,6 @@ class DetailActivity : AppCompatActivity() {
         extras?.let {
             filename.text = it.getString("filename")
 
-            Toast.makeText(applicationContext, it.getString("status"), Toast.LENGTH_LONG).show()
-
             when (it.getString("status")) {
                 "Success" -> status.setTextColor(resources.getColor(R.color.colorPrimaryDark, null))
                 else  -> status.setTextColor(resources.getColor(R.color.colorFailed, null))
