@@ -19,7 +19,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
             .setContentTitle(applicationContext.getString(R.string.notification_title))
             .setContentText(applicationContext.getString(R.string.notification_description))
             .setContentIntent(pendingIntent)
-            .addAction(R.drawable.ic_assistant_black_24dp, "", pendingIntent)
+            .addAction(R.drawable.ic_assistant_black_24dp, "Details", pendingIntent)
             .setAutoCancel(true)
 
     notify(NOTIFICATION_ID, builder.build())

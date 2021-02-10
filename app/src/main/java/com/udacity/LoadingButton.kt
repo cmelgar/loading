@@ -27,6 +27,8 @@ class LoadingButton @JvmOverloads constructor(
     private var buttonAnimator = ValueAnimator()
     private var circleAnimator = ValueAnimator()
 
+    private var buttonTextColor = 0
+
     private val paint = Paint().apply {
         isAntiAlias = true
         textSize = 64F
@@ -35,8 +37,26 @@ class LoadingButton @JvmOverloads constructor(
 
     private var loadingButton: LoadingButton = findViewById(R.id.custom_button)
 
+
+
     init {
         isClickable =  true
+
+        //get the custom attributes
+        val customAttrs = context.theme.obtainStyledAttributes(
+                attrs,
+                R.styleable.LoadingButton,
+                defStyleAttr,
+                0
+        )
+
+        with(customAttrs) {
+            buttonTextColor = getColor(R.styleable.LoadingButton_buttonTextColor, Color.WHITE)
+            setBackgroundColor(getColor(R.styleable.LoadingButton_colorBackground, resources.getColor(R.color.colorPrimary, null)))
+
+        }
+
+        customAttrs.recycle()
     }
 
     var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
@@ -118,7 +138,8 @@ class LoadingButton @JvmOverloads constructor(
     private val paintText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textAlign = Paint.Align.CENTER
         textSize = 50.0f
-        color = resources.getColor(R.color.white, null)
+        color = buttonTextColor
+//        color = resources.getColor(buttonTextColor, null)
     }
 
     private val textHeight: Float = paintText.descent() - paintText.ascent()
